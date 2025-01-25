@@ -1,6 +1,6 @@
 # 3D-Aware Instance Segmentation and Tracking in Egocentric Videos
 
-[Yash Bhalgat](https://yashbhalgat.github.io/)*<sup>1*</sup> &nbsp;&nbsp; [Vadim Tschernezki](https://github.com/dichotomies)*<sup>1,2*</sup> &nbsp;&nbsp; [Iro Laina](https://eng.ox.ac.uk/people/iro-laina/)*<sup>1</sup> &nbsp;&nbsp; [João F. Henriques](https://www.robots.ox.ac.uk/~joao/)*<sup>1</sup> &nbsp;&nbsp; [Andrea Vedaldi](https://www.robots.ox.ac.uk/~vedaldi/)*<sup>1</sup> &nbsp;&nbsp; [Andrew Zisserman](https://www.robots.ox.ac.uk/~az)*<sup>1</sup>
+[Yash Bhalgat](https://yashbhalgat.github.io/)<sup>1*</sup> &nbsp;&nbsp; [Vadim Tschernezki](https://github.com/dichotomies)<sup>1,2*</sup> &nbsp;&nbsp; [Iro Laina](https://eng.ox.ac.uk/people/iro-laina/)<sup>1</sup> &nbsp;&nbsp; [João F. Henriques](https://www.robots.ox.ac.uk/~joao/)<sup>1</sup> &nbsp;&nbsp; [Andrea Vedaldi](https://www.robots.ox.ac.uk/~vedaldi/)<sup>1</sup> &nbsp;&nbsp; [Andrew Zisserman](https://www.robots.ox.ac.uk/~az)<sup>1</sup>
 
 <sup>1</sup> Visual Geometry Group, University of Oxford &nbsp;&nbsp; <sup>2</sup> NAVER LABS Europe
 
@@ -16,7 +16,7 @@ Before running the code, you'll need to install several external dependencies:
    ```bash
    git clone https://github.com/LiheYoung/Depth-Anything/tree/1e1c8d373ae6383ef6490a5c2eb5ef29fd085993
    ```
-   Copy `scripts/preprocessing/depth_anything_EPIC.py`` to the root of the above repository.
+   Copy `scripts/preprocessing/depth_anything_EPIC.py` to the root of the above repository.
 
 2. **Tracking-Anything-with-DEVA** (provided with this repository)
 
