@@ -1,0 +1,44 @@
+### Preprocessing commands
+Mesh extraction from sparse pointcloud
+bash scripts_sh/reconstruct_mesh.sh <VID_1> <VID_2> <VID_3> ...
+
+
+Depth map from DepthAnythingV2
+git clone https://github.com/LiheYoung/Depth-Anything/tree/1e1c8d373ae6383ef6490a5c2eb5ef29fd085993
+cd Depth-Anything
+# copy scripts/preprocessing/depth_anything_EPIC.py to the root of the above repository.
+python depth_anything_EPIC.py --img-path <images dir> --outdir <output dir>
+
+
+Mesh depth rasterization
+python scripts/preprocessing/extract_mesh_depth.py --vid=$VID --root $ROOT
+
+Alignment depth
+python scripts/preprocessing/extract_aligned_depth.py --vid=$VID --root $ROOT
+
+
+VISOR annotation extension with DEVA
+python3 scripts/deva_groundtruth.py --img_path /datasets/EPIC-KITCHENS/$VID/ --output /datasets/EPIC-KITCHENS/$VID/visor_DEVA100_segmaps/ --amp --temporal_setting online --gt_dir $ROOT/$PID/$VID/visor_segmaps/ --max_missed_detection_count 100 --prompt "dummy1.dummy2"
+python3 scripts/preprocessing/postprocess_deva_gt.py --vid $VID
+
+
+DEVA segmentation extraction
+SFACTOR=5
+PID=$(echo $VID | cut -d'_' -f1)
+python scripts/deva_baseline.py \
+        --img_path $ROOT/mesh/$VID/images \
+        --output $ROOT/$PID/$VID/segmaps/deva_OWLv2_s$SFACTOR \
+        --amp --temporal_setting semionline --prompt "" \
+        --DINO_THRESHOLD 0.4 --detector_type owlv2 \
+        --subsample_factor=$SFACTOR --classes=$ROOT/visor/$VID\_classes.pt
+
+DINO feature extraction
+python scripts/extract_features_DEVA.py --deva_seg_dir $ROOT/$PID/$VID/segmaps/deva_OWLv2_s$SFACTOR --images_dir $ROOT/mesh/$VID/images --output_dir <output directory> --feature_type dinov2
+
+
+### Final eval command
+python3 extract_tracks.py --beta_l=${BETAL} --beta_c=${BETAC} --beta_v=${BETAV} --beta_s=${BETAS} --vid=${VID[$SLURM_ARRAY_TASK_ID]} --exp=tracked-final-bv${BETAV}-bs${BETAS}-bc{BETAC}-bl{BETAL}
+
+python3 eval_deva.py --segment_type=tracked-final-bv${BETAV}-bs${BETAS}-bc{BETAC}-bl{BETAL} --gt_type=visor_DEVA100_segmaps --vid=${VID}
+
+
