@@ -8,6 +8,12 @@
 
 This repository contains the official implementation of [3D-Aware Instance Segmentation and Tracking in Egocentric Videos](https://arxiv.org/abs/2408.09860).
 
+<p align="center">
+  <img src="assets/teaser.png" width="100%">
+</p>
+
+Our method leverages 3D awareness for robust instance segmentation and tracking in egocentric videos. The approach maintains consistent object identities through occlusions and out-of-view scenarios by integrating scene geometry with instance-level tracking. The figure above shows: (a) input egocentric video frames, (b) DEVA's 2D tracking which loses object identity after occlusion, and (c) our method maintaining consistent tracking through challenging scenarios.
+
 ## Prerequisites
 
 Before running the code, you'll need to install several external dependencies:
