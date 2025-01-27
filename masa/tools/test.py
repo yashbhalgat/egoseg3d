@@ -22,7 +22,6 @@ sys.path.insert(0, project_root)
 import masa
 import projects.Detic_new.detic
 
-# TODO: support fuse_conv_bn and format_only
 def parse_args():
     parser = argparse.ArgumentParser(
         description='MASA test (and eval) a model')

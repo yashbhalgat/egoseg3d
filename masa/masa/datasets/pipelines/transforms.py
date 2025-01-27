@@ -705,7 +705,6 @@ class FilterMatchAnnotations(BaseTransform):
         by_mask: bool = False,
         keep_empty: bool = True,
     ) -> None:
-        # TODO: add more filter options
         assert by_box or by_mask
         self.min_gt_bbox_wh = min_gt_bbox_wh
         self.min_gt_mask_area = min_gt_mask_area

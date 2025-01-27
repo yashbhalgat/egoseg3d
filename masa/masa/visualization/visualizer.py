@@ -169,7 +169,6 @@ class MasaTrackLocalVisualizer(Visualizer):
         draw_pred: bool = True,
         show: bool = False,
         wait_time: int = 0,
-        # TODO: Supported in mmengine's Viusalizer.
         out_file: Optional[str] = None,
         pred_score_thr: float = 0.3,
         vis_score=False,

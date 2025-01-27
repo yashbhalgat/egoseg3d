@@ -29,7 +29,6 @@ test_pipeline = [
     dict(type='Resize', scale=(1024, 800), keep_ratio=True),
     # avoid bboxes being resized
     dict(type='LoadAnnotations', with_bbox=True),
-    # TODO: find a better way to collect image_level_labels
     dict(
         type='PackDetInputs',
         meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',

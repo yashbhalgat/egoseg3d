@@ -93,7 +93,6 @@ class LoadMatchAnnotations(LoadAnnotations):
         """
         gt_bboxes = []
         gt_ignore_flags = []
-        # TODO: use bbox_type
         for instance in results["instances"]:
             # The datasets which are only format in evaluation don't have
             # groundtruth boxes.
@@ -102,7 +101,6 @@ class LoadMatchAnnotations(LoadAnnotations):
             if "ignore_flag" in instance:
                 gt_ignore_flags.append(instance["ignore_flag"])
 
-        # TODO: check this case
         if len(gt_bboxes) != len(gt_ignore_flags):
             # There may be no ``gt_ignore_flags`` in some cases, we treat them
             # as all False in order to keep the length of ``gt_bboxes`` and

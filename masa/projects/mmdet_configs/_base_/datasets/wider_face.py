@@ -66,7 +66,6 @@ val_dataloader = dict(
 test_dataloader = val_dataloader
 
 val_evaluator = dict(
-    # TODO: support WiderFace-Evaluation for easy, medium, hard cases
     type='VOCMetric',
     metric='mAP',
     eval_mode='11points')

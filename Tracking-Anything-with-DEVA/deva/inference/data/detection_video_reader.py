@@ -32,7 +32,6 @@ class DetectionVideoReader(Dataset):
         to_save - optionally contains a list of file names without extensions 
             where the segmentation mask is required
         """
-        # TODO: determine if_rgb automatically
         self.vid_name = vid_name
         self.image_dir = image_dir
         self.mask_dir = mask_dir

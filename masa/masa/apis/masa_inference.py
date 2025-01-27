@@ -167,10 +167,8 @@ def inference_detector(
     for i, img in enumerate(imgs):
         # prepare data
         if isinstance(img, np.ndarray):
-            # TODO: remove img_id.
             data_ = dict(img=img, img_id=0)
         else:
-            # TODO: remove img_id.
             data_ = dict(img_path=img, img_id=0)
 
         if text_prompt:

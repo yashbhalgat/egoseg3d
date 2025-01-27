@@ -73,7 +73,6 @@ train_dataloader = dict(
                     type='CocoDataset',
                     data_root='data/MOT20',
                     ann_file='annotations/train_cocoformat.json',
-                    # TODO: mmdet use img as key, but img_path is needed
                     data_prefix=dict(img='train'),
                     filter_cfg=dict(filter_empty_gt=True, min_size=32),
                     metainfo=dict(classes=('pedestrian', )),

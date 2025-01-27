@@ -248,10 +248,6 @@ class Track:
             [np.array(last_appearances), obs.appearance], axis=0
         ).mean(axis=0)
 
-        # TODO: disabled normalisation
-        # normalise evolved appearance
-        # evolved_appearance = evolved_appearance / (np.linalg.norm(evolved_appearance) + 1e-9)
-
         self.appearances[obs.frame] = evolved_appearance
 
         self.categories += [obs.category]
@@ -280,12 +276,6 @@ class Scene:
         self.frame2colmapid = {
             x[1].name.split(".")[0]: x[0] for x in list(self.images.items())
         }
-
-        # TODO (maybe): we can only calculate centroids for frames with visor segmaps
-        # could intrpolate later tracks or calculate centroids with features
-        # frames = sorted(os.listdir(f"out/{PID}/{VID}/visor_segmaps/"))
-        # frames = [x[: x.index(".")] for x in frames]
-        # frames = sorted(list(set(frames).intersection(self.frame2colmapid)))
         frames = sorted(self.frame2colmapid)
 
         self.frames = frames
@@ -483,9 +473,7 @@ def load_visor(frame, dir_visor):
 
 def load_fts(frame, dir_fts):
 
-    # TODO disabled normalisation
     fts = np.load(dir_fts / (frame + "_feat.npy"), allow_pickle=True).item()
-    # fts = {k: v / (np.linalg.norm(v) + 1e-9) for k, v in fts.items()}
     return fts
 
 
@@ -552,8 +540,6 @@ class DevaLoader:
     def load_instances(self, frame, visualise=False):
         instances = np.load(f"{self.root}/Annotations/Raw/{frame}.npy")
 
-        # TODO fix within segmentation model instead of here, no time right now
-        # remove small segments (no features possible to calculate)
         uniq_labels, counts = np.unique(instances, return_counts=True)
         counts = counts[uniq_labels != 0]
         uniq_labels = uniq_labels[uniq_labels != 0]

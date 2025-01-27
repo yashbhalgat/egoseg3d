@@ -132,7 +132,6 @@ def run_ner(caption: str) -> Tuple[list, list]:
     for entity, label in zip(relevant_phrases, labels):
         try:
             # search all occurrences and mark them as different entities
-            # TODO: Not Robust
             for m in re.finditer(entity, caption.lower()):
                 tokens_positive.append([[m.start(), m.end()]])
         except Exception:

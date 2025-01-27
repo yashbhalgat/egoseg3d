@@ -57,7 +57,7 @@ def read_deva_and_gt_ins_seg(deva_output_dir, dir_gt):
     deva_ins_seg = {}
     for f in tqdm(common_fnames, desc="Loading DEVA segmaps"):
         deva_ins_seg[f.split(".")[0]] = np.load(os.path.join(deva_output_dir, "Annotations", "Raw", f))
-    
+
     gt_ins_seg = {}
     for f in tqdm(common_fnames, desc="Loading GT segmaps"):
         gt_ins_seg[f.split(".")[0]] = np.load(os.path.join(dir_gt, f))
@@ -76,7 +76,7 @@ def postprocess_deva(video_id, class_name, deva_preds, deva_ins_seg, gt_ins_seg)
     deva_ins_seg = get_segments_for_class(
         deva_ins_seg, deva_preds, class_id=deva_preds["category_name2id"][class_name]
     )
-    
+
     visor_class_name2id = init_visor_class_name2id(video_id)
     # NOTE: assuming only one instance per class in GT
     gt_ins_seg = {
@@ -112,7 +112,6 @@ def postprocess_deva(video_id, class_name, deva_preds, deva_ins_seg, gt_ins_seg)
     data["gt_dets"] = []
     data["tracker_dets"] = []
 
-    # TODO: DEBUG, not remove, but adjust script for deva baseline instead
     for frame in deva_ins_seg.keys():
         unique_labels = np.unique(deva_ins_seg[frame])
         for label in unique_labels:
@@ -148,7 +147,6 @@ def postprocess_deva(video_id, class_name, deva_preds, deva_ins_seg, gt_ins_seg)
                 similarity_scores[i, j] = intersection / union
         data["similarity_scores"].append(similarity_scores)
 
-    # TODO: Re-label IDs such that there are no empty IDs
     unique_gt_ids = np.unique(np.concatenate(list(gt_ins_seg.values())))
     unique_gt_ids = unique_gt_ids[unique_gt_ids != 0]
     unique_tracker_ids = np.unique(np.concatenate(list(deva_ins_seg.values())))

@@ -375,7 +375,6 @@ class DeticBBoxHead(Shared2FCBBoxHead):
         rois = bbox_results['rois']
         bbox_preds = bbox_results['bbox_pred']
         if self.custom_activation:
-            # TODO: Create a SeasawBBoxHead to simplified logic in BBoxHead
             cls_scores = self.loss_cls.get_activation(cls_scores)
         if cls_scores.numel() == 0:
             return None

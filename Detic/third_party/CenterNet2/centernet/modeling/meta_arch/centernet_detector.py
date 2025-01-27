@@ -16,12 +16,12 @@ class CenterNetDetector(nn.Module):
         self.mean, self.std = cfg.MODEL.PIXEL_MEAN, cfg.MODEL.PIXEL_STD
         self.register_buffer("pixel_mean", torch.Tensor(cfg.MODEL.PIXEL_MEAN).view(-1, 1, 1))
         self.register_buffer("pixel_std", torch.Tensor(cfg.MODEL.PIXEL_STD).view(-1, 1, 1))
-        
+
         self.backbone = build_backbone(cfg)
         self.proposal_generator = build_proposal_generator(
-            cfg, self.backbone.output_shape()) # TODO: change to a more precise name
-    
-    
+            cfg, self.backbone.output_shape())
+
+
     def forward(self, batched_inputs):
         if not self.training:
             return self.inference(batched_inputs)

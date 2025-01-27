@@ -1,4 +1,4 @@
-# Copyright (c) Facebook, Inc. and its affiliates. 
+# Copyright (c) Facebook, Inc. and its affiliates.
 import torch
 import torch.nn.functional as F
 from torch import nn
@@ -45,7 +45,7 @@ class CustomSetCriterion(SetCriterion):
 
         target_classes_onehot = torch.zeros(
             [src_logits.shape[0], src_logits.shape[1], src_logits.shape[2] + 1],
-            dtype=src_logits.dtype, layout=src_logits.layout, 
+            dtype=src_logits.dtype, layout=src_logits.layout,
             device=src_logits.device)
         target_classes_onehot.scatter_(2, target_classes.unsqueeze(-1), 1)
 
@@ -57,20 +57,19 @@ class CustomSetCriterion(SetCriterion):
                 weight=self.fed_loss_weight,
                 C=target_classes_onehot.shape[2])
             loss_ce = sigmoid_focal_loss(
-                src_logits[:, :, inds], 
-                target_classes_onehot[:, :, inds], 
-                num_boxes, 
-                alpha=self.focal_alpha, 
+                src_logits[:, :, inds],
+                target_classes_onehot[:, :, inds],
+                num_boxes,
+                alpha=self.focal_alpha,
                 gamma=2) * src_logits.shape[1]
         else:
             loss_ce = sigmoid_focal_loss(
-                src_logits, target_classes_onehot, num_boxes, 
-                alpha=self.focal_alpha, 
+                src_logits, target_classes_onehot, num_boxes,
+                alpha=self.focal_alpha,
                 gamma=2) * src_logits.shape[1]
         losses = {'loss_ce': loss_ce}
 
         if log:
-            # TODO this should probably be a separate loss, not hacked in this one here
             losses['class_error'] = 100 - accuracy(src_logits[idx], target_classes_o)[0]
         return losses
 
@@ -151,7 +150,7 @@ class DeformableDetr(nn.Module):
             two_stage_num_proposals=num_queries)
 
         self.detr = DeformableDETR(
-            backbone, transformer, num_classes=self.num_classes, 
+            backbone, transformer, num_classes=self.num_classes,
             num_queries=num_queries,
             num_feature_levels=num_feature_levels,
             aux_loss=deep_supervision,
@@ -176,8 +175,8 @@ class DeformableDetr(nn.Module):
         if self.mask_on:
             losses += ["masks"]
         self.criterion = CustomSetCriterion(
-            self.num_classes, matcher=matcher, weight_dict=weight_dict, 
-            focal_alpha=focal_alpha, 
+            self.num_classes, matcher=matcher, weight_dict=weight_dict,
+            focal_alpha=focal_alpha,
             losses=losses,
             use_fed_loss=cfg.MODEL.DETR.USE_FED_LOSS
         )
