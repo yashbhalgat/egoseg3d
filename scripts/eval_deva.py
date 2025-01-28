@@ -16,9 +16,9 @@ from clear import CLEAR
 from global_vars import SEG_VALID_COUNTS, IGNORE_CAT
 
 
-def init_visor_class_name2id(video_id):
+def init_visor_class_name2id(video_id, root):
     visor_class_name2id = {}
-    all_annotations = torch.load(f"./out/visor/{video_id}_classes.pt")["visor"]
+    all_annotations = torch.load(str(root / Path(f"visor/{video_id}_classes.pt")))["visor"]
     for annotations in all_annotations:
         for ann in annotations["annotations"]:
             visor_class_name2id[ann["name"]] = ann["class_id"]
@@ -64,7 +64,7 @@ def read_deva_and_gt_ins_seg(deva_output_dir, dir_gt):
 
     return deva_ins_seg, gt_ins_seg
 
-def postprocess_deva(video_id, class_name, deva_preds, deva_ins_seg, gt_ins_seg):
+def postprocess_deva(video_id, class_name, deva_preds, deva_ins_seg, gt_ins_seg, root):
     """
     Output:
         data (dict): contains the following fields
@@ -77,7 +77,7 @@ def postprocess_deva(video_id, class_name, deva_preds, deva_ins_seg, gt_ins_seg)
         deva_ins_seg, deva_preds, class_id=deva_preds["category_name2id"][class_name]
     )
 
-    visor_class_name2id = init_visor_class_name2id(video_id)
+    visor_class_name2id = init_visor_class_name2id(video_id, root)
     # NOTE: assuming only one instance per class in GT
     gt_ins_seg = {
         k: (v == visor_class_name2id[class_name]).astype(np.int32)
@@ -239,7 +239,7 @@ if __name__ == "__main__":
     print(f"Loaded DEVA and GT segmentation maps for {vid}.")
 
     if args.class_name is not None:
-        data = postprocess_deva(args.vid, args.class_name, deva_preds, deva_ins_seg, gt_ins_seg)
+        data = postprocess_deva(args.vid, args.class_name, deva_preds, deva_ins_seg, gt_ins_seg, root)
         hota = HOTA()
         res = hota.eval_sequence(data)
         print(res)
@@ -252,7 +252,7 @@ if __name__ == "__main__":
         class_names = sorted(set(class_names).difference(IGNORE_CAT))
         all_res, all_res_id, all_res_mot = {}, {}, {}
         for class_name in class_names:
-            data = postprocess_deva(args.vid, class_name, deva_preds, deva_ins_seg, gt_ins_seg)
+            data = postprocess_deva(args.vid, class_name, deva_preds, deva_ins_seg, gt_ins_seg, root)
             hota = HOTA()
             identity_metric = Identity()
             mot = CLEAR()
