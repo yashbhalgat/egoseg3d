@@ -40,7 +40,7 @@ Then continue with the installation of following custom dependencies.
 3. **MASA** (provided with this repository)
 
 ## Usage
-#### NOTE: If you want to skip to the preprocessing, you can jump to [step 5](#5-evaluation).
+#### NOTE: If you want to skip the preprocessing (below) and start with the evaluation instead, you can jump to [step 5](#5-evaluation).
 
 After downloading the EPIC-FIELDS datasets, few preprocessing steps are required before running the tracking pipeline.
 
