@@ -16,7 +16,18 @@ Our method leverages 3D awareness for robust instance segmentation and tracking 
 
 ## Prerequisites
 
-Before running the code, you'll need to install several external dependencies:
+Before running the code, you'll need to install several external dependencies.
+
+We recommend creating a conda/mamba environment, and then installing other dependencies with the provided requirements.txt.
+
+```
+mamba create -n egoseg3d python=3.8
+mamba activate egoseg3d
+mamba install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+pip install -r requirements.txt
+```
+
+Then continue with the installation of following custom dependencies.
 
 1. **Depth Anything**: Required for depth estimation
    ```bash
@@ -29,7 +40,7 @@ Before running the code, you'll need to install several external dependencies:
 3. **MASA** (provided with this repository)
 
 ## Usage
-#### NOTE: If you want to skip to the evaluation, you can jump to [step 5](#5-evaluation).
+#### NOTE: If you want to skip to the preprocessing, you can jump to [step 5](#5-evaluation).
 
 After downloading the EPIC-FIELDS datasets, few preprocessing steps are required before running the tracking pipeline.
 
@@ -107,7 +118,14 @@ To verify the reproducibility of the results, we provide the tracking prediction
 
 Evaluate OUR results:
 ```bash
-python eval_deva.py \
+# we provide predictions for following hyperparameters and video
+BETAV=2
+BETAS=10
+BETAC=10000
+BETAL=10
+VID=P01_104
+
+python scripts/eval_deva.py \
     --segment_type=tracked-final-bv${BETAV}-bs${BETAS}-bc${BETAC}-bl${BETAL} \
     --gt_type=visor_DEVA100_segmaps \
     --vid=${VID}
